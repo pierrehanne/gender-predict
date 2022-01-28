@@ -2,3 +2,61 @@
 #
 # Documentation for this file format can be found in "The Data Catalog"
 # Link: https://kedro.readthedocs.io/en/stable/05_data/01_data_catalog.html
+belgium_name:
+  type: pandas.CSVDataSet
+  filepath: data/01_raw/belgium_names.csv
+  load_args:
+    usecols: [Year, Gender, Name, Count]
+    sep: ","
+    low_memory: False
+  save_args:
+    index: False
+
+french_name_1:
+  type: pandas.CSVDataset
+  filepath: data/01_raw/dpt2020.csv
+  load_args:
+    sep: ","
+    low_memory: False
+  save_args:
+    index: False
+
+french_name_2:
+  type: pandas/CSVDataset
+  filepath: data/01_raw/nat2020.csv
+  load_args:
+    sep: ","
+    low_memory: False
+  save_args:
+    index: False
+
+french_name_3:
+  type: pandas.CSVDataset
+  filepath: data/01_raw/liste_des_prenoms.csv
+  load_args:
+    sep: ","
+    low_memory: False
+  save_args:
+    index: False
+
+english_name_1:
+  type: pandas.CSVDataset
+  filepath: data/01_raw/popular_baby_names.csv
+  load_args:
+    sep: ","
+    low_memory: False
+  save_args:
+    index: False
+
+english_name_2:
+  type: pandas.CSVDataset
+  filepath: data/01_raw/names_ranks_counts.csv
+  load_args:
+    sep: ","
+    low_memory: False
+  save_args:
+    index: False
+
+english_name_3:
+  type: pandas.ExcelDataSet
+  filepath: data/01_raw/baby-names-frequency.xlsx
