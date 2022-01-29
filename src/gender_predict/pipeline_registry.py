@@ -13,5 +13,7 @@ def register_pipelines() -> Dict[str, Pipeline]:
     """
     # instantiate data engineering pipeline
     pipeline_data_engineering = de.create_pipeline()
-    
-    return {"__default__": Pipeline([pipeline_data_engineering])}
+    return {
+        "__default__": Pipeline([pipeline_data_engineering]),
+        "de": pipeline_data_engineering
+    }

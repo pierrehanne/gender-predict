@@ -2,61 +2,66 @@
 #
 # Documentation for this file format can be found in "The Data Catalog"
 # Link: https://kedro.readthedocs.io/en/stable/05_data/01_data_catalog.html
-belgium_name:
-  type: pandas.CSVDataSet
-  filepath: data/01_raw/belgium_names.csv
-  load_args:
-    usecols: [Year, Gender, Name, Count]
-    sep: ","
-    low_memory: False
-  save_args:
-    index: False
-
-french_name_1:
-  type: pandas.CSVDataset
-  filepath: data/01_raw/dpt2020.csv
-  load_args:
-    sep: ","
-    low_memory: False
-  save_args:
-    index: False
-
-french_name_2:
-  type: pandas/CSVDataset
-  filepath: data/01_raw/nat2020.csv
-  load_args:
-    sep: ","
-    low_memory: False
-  save_args:
-    index: False
-
-french_name_3:
-  type: pandas.CSVDataset
-  filepath: data/01_raw/liste_des_prenoms.csv
-  load_args:
-    sep: ","
-    low_memory: False
-  save_args:
-    index: False
-
-english_name_1:
-  type: pandas.CSVDataset
-  filepath: data/01_raw/popular_baby_names.csv
-  load_args:
-    sep: ","
-    low_memory: False
-  save_args:
-    index: False
-
-english_name_2:
-  type: pandas.CSVDataset
-  filepath: data/01_raw/names_ranks_counts.csv
-  load_args:
-    sep: ","
-    low_memory: False
-  save_args:
-    index: False
-
-english_name_3:
+_excel: &excel
   type: pandas.ExcelDataSet
-  filepath: data/01_raw/baby-names-frequency.xlsx
+  load_args:
+    engine: openpyxl
+    usecols: [gender, name]
+    comment: _PRENOMS_RARES
+
+belgium_name:
+  <<: *excel
+  filepath: data/01_raw/belgium/belgium_names.xlsx
+  layer: raw
+
+canadian_name:
+  <<: *excel
+  filepath: data/01_raw/canada/alberta_baby_names_frequency.xlsx
+  layer: raw
+
+idf_french_name:
+  <<: *excel
+  filepath: data/01_raw/france/idf_liste_des_prenoms.xlsx
+  layer: raw
+
+fr_french_name:
+  <<: *excel
+  filepath: data/01_raw/france/fr_name.xlsx
+  layer: raw
+
+nyc_american_name:
+  <<: *excel
+  filepath: data/01_raw/usa/nyc_popular_baby_names.xlsx
+  layer: raw
+
+usa_american_name:
+  <<: *excel
+  filepath: data/01_raw/usa/usa_rank_names.xlsx
+  layer: raw
+
+preprocessed_belgium_name:
+  <<: *excel
+  filepath: data/02_intermediate/preprocessed_belgium_name.xlsx
+  layer: intermediate
+
+preprocessed_canadian_name:
+  <<: *excel
+  filepath: data/02_intermediate/preprocessed_canadian_name.xlsx
+  layer: intermediate
+
+preprocessed_french_name:
+  <<: *excel
+  filepath: data/02_intermediate/preprocessed_french_name.xlsx
+  layer: intermediate
+  load_args:
+    engine: openpyxl
+
+preprocessed_american_name:
+  <<: *excel
+  filepath: data/02_intermediate/preprocessed_american_name.xlsx
+  layer: intermediate
+
+model_input_table:
+  <<: *excel
+  filepath: data/03_primary/model_input_table.xlsx
+  layer: primary

@@ -6,6 +6,8 @@ from kedro.framework.hooks import hook_impl
 from kedro.io import DataCatalog
 from kedro.versioning import Journal
 
+from .memory_profile import ProfileMemoryTransformer
+from kedro.extras.transformers import ProfileTimeTransformer
 
 class ProjectHooks:
     @hook_impl
@@ -26,3 +28,13 @@ class ProjectHooks:
         return DataCatalog.from_config(
             catalog, credentials, load_versions, save_version, journal
         )
+
+
+class TransformerHooks:
+    @hook_impl
+    def after_catalog_created(self, catalog: DataCatalog) -> None:
+        catalog.add_transformer(ProfileTimeTransformer())
+
+        # as memory tracking is quite time-consuming, for demonstration purposes
+        # let's apply profile_memory only to the model_input_table
+        catalog.add_transformer(ProfileMemoryTransformer(), "model_input_table")
