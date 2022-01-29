@@ -65,3 +65,27 @@ model_input_table:
   <<: *excel
   filepath: data/03_primary/model_input_table.xlsx
   layer: primary
+
+_joblib: &joblib
+  type: pickle.PickleDataSet
+  backend: joblib
+
+X_train:
+  <<: *joblib
+  filepath: data/04_feature/X_train.joblib
+  layer: primary
+
+X_test:
+  <<: *joblib
+  filepath: data/04_feature/X_test.joblib
+  layer: primary
+
+y_train:
+  <<: *joblib
+  filepath: data/04_feature/y_train.joblib
+  layer: primary
+
+y_test:
+  <<: *joblib
+  filepath: data/04_feature/y_train.joblib
+  layer: primary
