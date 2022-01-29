@@ -42,7 +42,7 @@ def create_pipeline(**kwargs):
             ),
             node(
                 func=create_model_input_table,
-                inputs=["preprocessed_belgium_name", "preprocessed_canadian_name", "preprocessed_french_name", "preprocessed_american_name"],
+                inputs=["preprocessed_belgium_name", "preprocessed_canadian_name", "preprocessed_french_name", "preprocessed_american_name", "parameters"],
                 outputs="model_input_table",
                 name="create_model_input_table_node",
             )

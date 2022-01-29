@@ -2,8 +2,11 @@
 This is a boilerplate pipeline 'data_engineering'
 generated using Kedro 0.17.6
 """
+from typing import Dict
+import torch
+
 import pandas as pd
-import string
+from string import punctuation, ascii_lowercase
 
 
 def _strip_whitespace(df: pd.DataFrame) -> pd.DataFrame:
@@ -72,7 +75,7 @@ def _remove_punctuation(df: pd.DataFrame) -> pd.DataFrame:
     cols = df.select_dtypes(include=[object]).columns
     # remove punctuations
     for i in cols:
-        df[i] = df[i].str.replace('[{}]'.format(string.punctuation), ' ', regex=True)
+        df[i] = df[i].str.replace('[{}]'.format(punctuation), '', regex=True)
     # dataframe with removed punctuations
     return df
 
@@ -232,11 +235,37 @@ def preprocess_american_name(nyc_american_name: pd.DataFrame, usa_american_name:
     return american_cleaned
 
 
+def _name_to_tensor(name: str) -> torch.tensor:
+    """transpose string name into torch tensor
+
+    Args:
+        name (str): name to encode
+
+    Returns:
+        torch.tensor: name as one-hot vector representation
+    """
+    # fetch all ascii lowercase letters
+    n_letters = len(ascii_lowercase)
+    # each letter is an one-hot vector
+    tensor = torch.zeros(len(name), 1, n_letters)
+
+    # create a dictionnary of one-hot vectors
+    for idx, letter in enumerate(name):
+        # map character to dictionnary value
+        letter_idx = ascii_lowercase.find(letter)
+        # set vector to one if letter correspond to dictionnary
+        tensor[idx][0][letter_idx] = 1
+
+    # return tensor
+    return tensor
+
+
 def create_model_input_table(
     belgium_name: pd.DataFrame,
     canadian_name: pd.DataFrame,
     french_name: pd.DataFrame,
-    american_name: pd.DataFrame
+    american_name: pd.DataFrame,
+    parameters: Dict
 ) -> pd.DataFrame:
     """concat rows from different datasets into one
 
@@ -245,8 +274,11 @@ def create_model_input_table(
         canadian_name (pd.DataFrame): dataframe name
         french_name (pd.DataFrame): dataframe name
         american_name (pd.DataFrame): dataframe name
+        parameters (Dict) : yaml configuration
 
     Returns:
         pd.DataFrame: dataframe concatened
     """
-    return pd.concat([belgium_name, canadian_name, french_name, american_name], axis=0).reset_index(drop=True)
+    df =  pd.concat([belgium_name, canadian_name, french_name, american_name], axis=0).reset_index(drop=True)
+    df[parameters["name_encoded"]] = df[parameters["name"]].apply(lambda x: _name_to_tensor(x) if type(x) == str else x)
+    return df
