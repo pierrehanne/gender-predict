@@ -2,10 +2,7 @@
 This is a boilerplate pipeline 'data_engineering'
 generated using Kedro 0.17.6
 """
-from typing import Dict
-
 import pandas as pd
-import numpy as np
 import string
 
 
@@ -239,8 +236,7 @@ def create_model_input_table(
     belgium_name: pd.DataFrame,
     canadian_name: pd.DataFrame,
     french_name: pd.DataFrame,
-    american_name: pd.DataFrame,
-    parameters: Dict
+    american_name: pd.DataFrame
 ) -> pd.DataFrame:
     """concat rows from different datasets into one
 
@@ -249,7 +245,6 @@ def create_model_input_table(
         canadian_name (pd.DataFrame): dataframe name
         french_name (pd.DataFrame): dataframe name
         american_name (pd.DataFrame): dataframe name
-        parameters (Dict): yaml parameters
 
     Returns:
         pd.DataFrame: dataframe concatened
