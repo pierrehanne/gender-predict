@@ -3,25 +3,16 @@
 #
 # Documentation for this file format can be found in "Parameters"
 # Link: https://kedro.readthedocs.io/en/0.17.6/04_kedro_project_setup/02_configuration.html#parameters
+
+# split configuration
 features: name
 target: gender
-
-train_size: 0.8
-test_size: 0.2
+train_size: .8
+test_size: .2
 random_state: 42
 
-# device
-gpu: cuda
-cpu: cpu
+analyzer: char
+ngram_range_start: 1
+ngram_range_end: 3
 
-# hidden Layers
-n_hiddens: 128
-
-# predict gender -> M/F
-n_classes: 2
-
-# training loop parameters
-epochs: 20
-print_steps: 1000
-print_all_steps: 25000
-train_loss: 0.0
+name_experiment: Gender Classification Sklearn

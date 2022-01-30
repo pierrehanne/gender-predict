@@ -7,8 +7,7 @@ from kedro.pipeline import Pipeline, node
 
 from .nodes import (
     split_data,
-    init_device,
-    init_neural_network
+    fit_model
 )
 
 def create_pipeline(**kwargs):
@@ -21,16 +20,10 @@ def create_pipeline(**kwargs):
                 name="splitted_data_node",
             ),
             node(
-                func=init_device,
-                inputs="parameters",
-                outputs="device",
-                name="init_device_node",
-            ),
-            node(
-                func=init_neural_network,
-                inputs=["device", "parameters"],
-                outputs="model",
-                name="init_neural_network_node",
+                func=fit_model,
+                inputs=["X_train", "X_test", "y_train", "y_test", "parameters"],
+                outputs=["fit_model", "test_metrics"],
+                name="fit_model_node",
             ),
         ]
     )
