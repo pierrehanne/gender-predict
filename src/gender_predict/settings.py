@@ -1,8 +1,8 @@
 """Project settings."""
-from gender_predict.hooks import ProjectHooks
+from gender_predict.hooks import ProjectHooks, TransformerHooks
 
 # Instantiate and list your project hooks here
-HOOKS = (ProjectHooks(),)
+HOOKS = (ProjectHooks(),TransformerHooks())
 
 # List the installed plugins for which to disable auto-registry
 # DISABLE_HOOKS_FOR_PLUGINS = ("kedro-viz",)
